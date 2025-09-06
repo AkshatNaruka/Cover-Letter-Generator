@@ -1,5 +1,7 @@
 # Cover Letter Generator
 
+[![Deploy to GitHub Pages](https://github.com/AkshatNaruka/Cover-Letter-Generator/actions/workflows/static.yml/badge.svg)](https://github.com/AkshatNaruka/Cover-Letter-Generator/actions/workflows/static.yml)
+
 Generate professional cover letters easily for your next job application using our pre-made templates.
 
 ## Features
@@ -32,6 +34,21 @@ Generate professional cover letters easily for your next job application using o
 - Years of Experience
 - Key Skills (comma separated)
 - Hiring Manager Name (optional)
+
+## Deployment
+
+This site is automatically deployed to GitHub Pages using GitHub Actions. The deployment workflow:
+
+- **Triggers**: Runs on pushes to `main` branch, pull requests to `main`, and manual dispatch
+- **Build Process**: Validates HTML, CSS, and JavaScript files exist and are accessible
+- **Deployment**: Automatically deploys to GitHub Pages when changes are pushed to the main branch
+- **PR Previews**: Builds and validates changes in pull requests without deploying
+
+The site is available at: `https://akshatnaruka.github.io/Cover-Letter-Generator/`
+
+### Manual Deployment
+
+You can manually trigger a deployment from the GitHub Actions tab in the repository.
 
 ## Getting Started
 
