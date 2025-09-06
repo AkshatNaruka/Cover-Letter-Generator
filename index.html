@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cover Letter Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cover Letter Generator</h1>
+            <p>Create professional cover letters using our pre-made templates</p>
+        </header>
+
+        <main>
+            <div class="form-section">
+                <h2>Step 1: Select a Template</h2>
+                <div class="template-selection">
+                    <label for="template-select">Choose a template:</label>
+                    <select id="template-select">
+                        <option value="">Select a template...</option>
+                        <option value="professional">Professional</option>
+                        <option value="creative">Creative</option>
+                        <option value="entry-level">Entry Level</option>
+                    </select>
+                </div>
+
+                <h2>Step 2: Fill in Your Information</h2>
+                <form id="cover-letter-form">
+                    <div class="form-group">
+                        <label for="full-name">Full Name:</label>
+                        <input type="text" id="full-name" name="fullName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number:</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company-name">Company Name:</label>
+                        <input type="text" id="company-name" name="companyName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="job-title">Job Title/Role:</label>
+                        <input type="text" id="job-title" name="jobTitle" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hiring-manager">Hiring Manager Name (optional):</label>
+                        <input type="text" id="hiring-manager" name="hiringManager" placeholder="Dear Hiring Manager">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="experience">Years of Experience:</label>
+                        <input type="number" id="experience" name="experience" min="0" max="50" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="skills">Key Skills (comma separated):</label>
+                        <input type="text" id="skills" name="skills" placeholder="JavaScript, React, Node.js" required>
+                    </div>
+
+                    <button type="button" id="generate-btn">Generate Cover Letter</button>
+                </form>
+            </div>
+
+            <div class="preview-section">
+                <h2>Step 3: Your Generated Cover Letter</h2>
+                <div id="cover-letter-preview">
+                    <p>Select a template and fill in your information to see your cover letter here.</p>
+                </div>
+                <div class="action-buttons">
+                    <button id="copy-btn" disabled>Copy to Clipboard</button>
+                    <button id="reset-btn">Reset Form</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
