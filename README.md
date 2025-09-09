@@ -2,38 +2,70 @@
 
 [![Deploy to GitHub Pages](https://github.com/AkshatNaruka/Cover-Letter-Generator/actions/workflows/static.yml/badge.svg)](https://github.com/AkshatNaruka/Cover-Letter-Generator/actions/workflows/static.yml)
 
-Generate professional cover letters easily for your next job application using our pre-made templates.
+Generate professional cover letters easily for your next job application using our pre-made templates. **Now with 6 templates, dark mode, template preview, and automatic data saving!**
 
-## Features
+🌐 **Live Demo:** [https://akshatnaruka.github.io/Cover-Letter-Generator/](https://akshatnaruka.github.io/Cover-Letter-Generator/)
 
-- **Multiple Templates**: Choose from 3 different cover letter styles:
-  - **Professional**: Traditional, formal business letter format
-  - **Creative**: Modern, enthusiastic style with emojis and casual tone
-  - **Entry Level**: Perfect for new graduates and early career professionals
+## ✨ Features
 
+### 📝 **Multiple Templates (6 Available)**
+Choose from 6 different cover letter styles designed for specific industries:
+- **Professional**: Traditional, formal business letter format (Corporate, Finance, Legal, Consulting)
+- **Creative**: Modern, enthusiastic style with emojis (Startups, Design, Marketing, Tech)
+- **Entry Level**: Perfect for new graduates and early career professionals
+- **Modern**: Contemporary format for tech and digital roles (Tech, Digital Marketing, Project Management)
+- **Academic**: Scholarly tone for research and education (Research, Education, Non-profit)
+- **Sales & Marketing**: Results-driven format for sales professionals (Sales, Business Development)
+
+### 🔥 **New Features**
+- **🔍 Template Preview**: See exactly how your template looks before generating
+- **🌙 Dark Mode**: Toggle between light and dark themes with preference saving
+- **💾 Auto-Save**: Your information is automatically saved locally for future use
+- **📱 Mobile Optimized**: Enhanced responsive design for all devices
+- **❓ FAQ Section**: Comprehensive help section with common questions
+- **🎨 Modern UI**: Beautiful typography with Google Fonts and smooth animations
+
+### 🚀 **Core Functionality**
 - **User-Friendly Interface**: Simple 3-step process to create your cover letter
 - **Dynamic Content**: Automatically inserts your information into the selected template
 - **Copy to Clipboard**: One-click copying of your generated cover letter
-- **Mobile Responsive**: Works perfectly on desktop, tablet, and mobile devices
-- **Form Validation**: Ensures all required fields are completed before generation
+- **Form Validation**: Smart validation with helpful error messages
+- **Performance Optimized**: Fast loading and Core Web Vitals monitoring
 
-## How to Use
+## 📊 SEO Optimized
 
-1. **Select a Template**: Choose from Professional, Creative, or Entry Level templates
-2. **Fill in Your Information**: Complete the form with your personal details, target company, and job information
-3. **Generate & Copy**: Click "Generate Cover Letter" to create your personalized letter, then copy it to your clipboard
+This application is fully optimized for search engines with:
+- Comprehensive meta tags and Open Graph data
+- Structured data (JSON-LD) for rich snippets
+- Social media optimization (Twitter Cards)
+- robots.txt and sitemap.xml
+- Semantic HTML structure
+- Performance monitoring and optimization
 
-## Required Information
+## 🎯 How to Use
 
-- Full Name
-- Email Address
-- Phone Number
-- Address
-- Company Name
-- Job Title/Role
-- Years of Experience
-- Key Skills (comma separated)
-- Hiring Manager Name (optional)
+1. **🎨 Select a Template**: Choose from 6 professional templates with live preview
+2. **📝 Fill in Your Information**: Complete the form with your personal details (auto-saved as you type)
+3. **⚡ Generate & Copy**: Click "Generate Cover Letter" to create your personalized letter, then copy it to your clipboard
+4. **🌙 Customize Experience**: Toggle dark mode and use template previews for the best experience
+
+## 📋 Required Information
+
+- **Personal Details**: Full Name, Email Address, Phone Number, Address
+- **Job Information**: Company Name, Job Title/Role, Years of Experience
+- **Skills**: Key Skills (comma separated - e.g., "JavaScript, React, Node.js")
+- **Optional**: Hiring Manager Name (defaults to "Hiring Manager" if not provided)
+
+## 🎨 Template Guide
+
+| Template | Best For | Industries | Tone |
+|----------|----------|------------|------|
+| **Professional** | Corporate roles | Finance, Legal, Consulting | Formal, Traditional |
+| **Creative** | Innovative companies | Startups, Design, Marketing | Modern, Enthusiastic |
+| **Entry Level** | New graduates | Any industry | Professional, Eager |
+| **Modern** | Tech roles | Technology, Digital Marketing | Contemporary, Strategic |
+| **Academic** | Research positions | Education, Non-profit | Scholarly, Detailed |
+| **Sales** | Sales roles | Sales, Business Development | Results-driven, Confident |
 
 ## Deployment
 
@@ -76,25 +108,49 @@ Then visit `http://localhost:8000` in your browser.
 └── README.md       # This file
 ```
 
-## Templates Overview
+## 📄 Templates Overview
 
-### Professional Template
-- Formal business letter format
-- Traditional structure and language
-- Suitable for corporate environments
-- Includes all standard cover letter elements
+### 👔 Professional Template
+- **Format**: Formal business letter structure
+- **Tone**: Traditional and professional language
+- **Best for**: Corporate environments, traditional industries
+- **Industries**: Finance, Legal, Consulting, Government
+- **Features**: Standard cover letter elements with formal addressing
 
-### Creative Template  
-- Modern, enthusiastic tone
-- Uses emojis and casual language
-- Perfect for startups and creative industries
-- Emphasizes personality and passion
+### 🎨 Creative Template  
+- **Format**: Modern layout with emojis and visual elements
+- **Tone**: Enthusiastic and personality-driven
+- **Best for**: Startups and creative industries
+- **Industries**: Design, Marketing, Advertising, Startups
+- **Features**: Creative formatting, casual yet professional language
 
-### Entry Level Template
-- Tailored for new graduates and career starters
-- Focuses on potential and learning attitude
-- Acknowledges limited experience while highlighting strengths
-- Professional yet approachable tone
+### 🎓 Entry Level Template
+- **Format**: Professional structure emphasizing potential
+- **Tone**: Eager and growth-oriented
+- **Best for**: New graduates and career changers
+- **Industries**: Any industry for entry-level positions
+- **Features**: Focus on education, potential, and learning attitude
+
+### ⚡ Modern Template
+- **Format**: Contemporary business communication style
+- **Tone**: Strategic and results-focused
+- **Best for**: Tech companies and modern workplaces
+- **Industries**: Technology, Digital Marketing, Project Management
+- **Features**: Structured sections with clear value propositions
+
+### 🎓 Academic Template
+- **Format**: Scholarly and detailed approach
+- **Tone**: Research-focused and methodical
+- **Best for**: Academic and research positions
+- **Industries**: Education, Research, Non-profit, Think Tanks
+- **Features**: Emphasis on research experience and publications
+
+### 📈 Sales & Marketing Template
+- **Format**: Results-driven with metrics focus
+- **Tone**: Confident and achievement-oriented
+- **Best for**: Sales and business development roles
+- **Industries**: Sales, Business Development, Customer Success
+- **Features**: Performance highlights, competitive language, call-to-action
 
 ## Browser Compatibility
 

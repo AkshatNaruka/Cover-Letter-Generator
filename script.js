@@ -510,8 +510,46 @@ function initializeFAQ() {
     });
 }
 
+// Performance monitoring
+function trackPerformance() {
+    if ('performance' in window) {
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const perfData = performance.getEntriesByType('navigation')[0];
+                const loadTime = perfData.loadEventEnd - perfData.loadEventStart;
+                const domContentLoaded = perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart;
+                
+                console.log(`Page Load Time: ${loadTime}ms`);
+                console.log(`DOM Content Loaded: ${domContentLoaded}ms`);
+                
+                // Track Core Web Vitals if available
+                if ('PerformanceObserver' in window) {
+                    try {
+                        const observer = new PerformanceObserver((list) => {
+                            list.getEntries().forEach((entry) => {
+                                if (entry.entryType === 'largest-contentful-paint') {
+                                    console.log(`LCP: ${entry.startTime}ms`);
+                                } else if (entry.entryType === 'first-input') {
+                                    console.log(`FID: ${entry.processingStart - entry.startTime}ms`);
+                                }
+                            });
+                        });
+                        
+                        observer.observe({entryTypes: ['largest-contentful-paint', 'first-input']});
+                    } catch (e) {
+                        // PerformanceObserver not supported
+                    }
+                }
+            }, 0);
+        });
+    }
+}
+
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
+    // Track performance
+    trackPerformance();
+    
     // Initialize theme
     initializeTheme();
     
@@ -560,4 +598,12 @@ document.addEventListener('DOMContentLoaded', function() {
     templateSelect.addEventListener('change', updateButtonText);
     form.addEventListener('input', updateButtonText);
     updateButtonText();
+    
+    // Analytics tracking (placeholder for future implementation)
+    if (typeof gtag !== 'undefined') {
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            page_title: 'Cover Letter Generator',
+            page_location: window.location.href
+        });
+    }
 });
