@@ -76,11 +76,114 @@ Sincerely,
 [FULL_NAME]
 [EMAIL]
 [PHONE]
-[ADDRESS]`
+[ADDRESS]`,
+
+    modern: `[DATE]
+
+[HIRING_MANAGER]
+[COMPANY_NAME]
+
+Subject: Application for [JOB_TITLE] Position
+
+Hi [GREETING],
+
+I'm reaching out because the [JOB_TITLE] role at [COMPANY_NAME] perfectly aligns with my [EXPERIENCE] years of experience in [SKILLS]. Your company's innovative approach and commitment to excellence immediately caught my attention.
+
+What I bring to your team:
+
+EXPERIENCE & EXPERTISE
+→ [EXPERIENCE] years of proven success in relevant roles
+→ Deep knowledge in [SKILLS]
+→ Track record of delivering results that matter
+
+VALUE PROPOSITION
+→ Strategic thinking combined with hands-on execution
+→ Collaborative approach that drives team performance
+→ Continuous learning mindset that embraces new challenges
+
+CULTURAL FIT
+→ Passion for innovation and quality
+→ Strong communication and problem-solving abilities
+→ Commitment to contributing to [COMPANY_NAME]'s mission
+
+I'm excited about the possibility of joining your team and contributing to [COMPANY_NAME]'s continued growth. I'd welcome the opportunity to discuss how my background and enthusiasm can add value to your organization.
+
+Best regards,
+[FULL_NAME]
+[EMAIL] | [PHONE]
+[ADDRESS]`,
+
+    academic: `[DATE]
+
+[HIRING_MANAGER]
+[COMPANY_NAME]
+
+Dear [GREETING],
+
+I am writing to express my interest in the [JOB_TITLE] position at [COMPANY_NAME]. With [EXPERIENCE] years of experience in research and academia, combined with expertise in [SKILLS], I am eager to contribute to your institution's scholarly mission.
+
+My academic background has provided me with:
+• Strong analytical and research capabilities
+• Experience in peer-reviewed publication and presentation
+• Proficiency in [SKILLS] and related methodologies
+• Commitment to rigorous academic standards and ethical practices
+
+Throughout my career, I have demonstrated:
+→ Research Excellence: Successfully completed projects resulting in meaningful contributions to the field
+→ Teaching & Mentorship: Guided students and colleagues in academic and professional development
+→ Collaboration: Worked effectively with interdisciplinary teams and international partners
+→ Grant Writing: Secured funding for research initiatives and academic programs
+
+I am particularly drawn to [COMPANY_NAME] because of your reputation for academic excellence and commitment to advancing knowledge in the field. I believe my research experience in [SKILLS] and dedication to scholarly inquiry would be valuable assets to your team.
+
+I would welcome the opportunity to discuss how my academic background and research expertise can contribute to [COMPANY_NAME]'s continued success in advancing education and research.
+
+Sincerely,
+[FULL_NAME]
+[EMAIL]
+[PHONE]
+[ADDRESS]`,
+
+    sales: `[DATE]
+
+[HIRING_MANAGER]
+[COMPANY_NAME]
+
+Dear [GREETING],
+
+I'm excited to apply for the [JOB_TITLE] position at [COMPANY_NAME]! With [EXPERIENCE] years of proven sales success and expertise in [SKILLS], I'm ready to drive results and exceed your revenue goals.
+
+MY TRACK RECORD:
+✅ [EXPERIENCE] years of consistent quota achievement
+✅ Expertise in [SKILLS] and relationship building
+✅ Strong pipeline management and closing abilities
+✅ Experience with CRM systems and sales analytics
+
+WHAT I BRING:
+🎯 Results-driven approach with focus on customer success
+🤝 Natural relationship builder who creates lasting partnerships
+📈 Strategic thinker who identifies growth opportunities
+💪 Resilient performer who thrives in competitive environments
+
+WHY [COMPANY_NAME]?
+Your reputation for innovation and customer-centric approach aligns perfectly with my sales philosophy. I'm particularly impressed by your recent market expansion and would love to contribute to your continued growth.
+
+NEXT STEPS:
+I'm confident in my ability to contribute immediately to your sales team's success. I'd welcome the opportunity to discuss specific strategies for the [JOB_TITLE] role and share how my experience can help [COMPANY_NAME] achieve its sales objectives.
+
+Ready to make an impact,
+[FULL_NAME]
+[EMAIL] | [PHONE]
+[ADDRESS]
+
+P.S. I've already researched your key competitors and have some ideas for capturing additional market share – let's talk!`
 };
 
 // DOM elements
 const templateSelect = document.getElementById('template-select');
+const templatePreview = document.getElementById('template-preview');
+const templatePreviewContent = document.getElementById('template-preview-content');
+const themeToggle = document.getElementById('theme-toggle');
 const form = document.getElementById('cover-letter-form');
 const generateBtn = document.getElementById('generate-btn');
 const copyBtn = document.getElementById('copy-btn');
@@ -102,10 +205,52 @@ const skillsInput = document.getElementById('skills');
 generateBtn.addEventListener('click', generateCoverLetter);
 copyBtn.addEventListener('click', copyToClipboard);
 resetBtn.addEventListener('click', resetForm);
-templateSelect.addEventListener('change', updateGenerateButton);
+templateSelect.addEventListener('change', handleTemplateChange);
+themeToggle.addEventListener('click', toggleTheme);
 
 // Form validation
-form.addEventListener('input', updateGenerateButton);
+form.addEventListener('input', handleFormInput);
+
+// Template preview functionality
+function handleTemplateChange() {
+    const selectedTemplate = templateSelect.value;
+    
+    if (selectedTemplate && templates[selectedTemplate]) {
+        // Show preview
+        templatePreview.style.display = 'block';
+        
+        // Get a preview of the template with placeholder text
+        let previewText = templates[selectedTemplate]
+            .replace('[DATE]', 'March 15, 2024')
+            .replace(/\[FULL_NAME\]/g, 'John Smith')
+            .replace(/\[EMAIL\]/g, 'john.smith@email.com')
+            .replace(/\[PHONE\]/g, '+1 (555) 123-4567')
+            .replace(/\[ADDRESS\]/g, '123 Main St, City, State 12345')
+            .replace(/\[COMPANY_NAME\]/g, 'ABC Corporation')
+            .replace(/\[JOB_TITLE\]/g, 'Software Developer')
+            .replace(/\[HIRING_MANAGER\]/g, 'Sarah Johnson')
+            .replace(/\[GREETING\]/g, 'Ms. Johnson')
+            .replace(/\[EXPERIENCE\]/g, '3')
+            .replace(/\[SKILLS\]/g, 'JavaScript, React, Node.js');
+        
+        // Limit preview to first 500 characters
+        if (previewText.length > 500) {
+            previewText = previewText.substring(0, 500) + '...';
+        }
+        
+        templatePreviewContent.textContent = previewText;
+    } else {
+        templatePreview.style.display = 'none';
+    }
+    
+    updateGenerateButton();
+}
+
+// Form input handler with local storage
+function handleFormInput(e) {
+    updateGenerateButton();
+    saveFormData();
+}
 
 function updateGenerateButton() {
     const templateSelected = templateSelect.value;
@@ -113,6 +258,69 @@ function updateGenerateButton() {
     let allValid = templateSelected && Array.from(requiredFields).every(field => field.value.trim());
     
     generateBtn.disabled = !allValid;
+}
+
+// Local storage functionality
+function saveFormData() {
+    const formData = {
+        template: templateSelect.value,
+        fullName: fullNameInput.value,
+        email: emailInput.value,
+        phone: phoneInput.value,
+        address: addressInput.value,
+        companyName: companyNameInput.value,
+        jobTitle: jobTitleInput.value,
+        hiringManager: hiringManagerInput.value,
+        experience: experienceInput.value,
+        skills: skillsInput.value
+    };
+    
+    localStorage.setItem('coverLetterData', JSON.stringify(formData));
+}
+
+function loadFormData() {
+    const savedData = localStorage.getItem('coverLetterData');
+    if (savedData) {
+        try {
+            const formData = JSON.parse(savedData);
+            
+            templateSelect.value = formData.template || '';
+            fullNameInput.value = formData.fullName || '';
+            emailInput.value = formData.email || '';
+            phoneInput.value = formData.phone || '';
+            addressInput.value = formData.address || '';
+            companyNameInput.value = formData.companyName || '';
+            jobTitleInput.value = formData.jobTitle || '';
+            hiringManagerInput.value = formData.hiringManager || '';
+            experienceInput.value = formData.experience || '';
+            skillsInput.value = formData.skills || '';
+            
+            handleTemplateChange(); // Update template preview
+        } catch (e) {
+            console.log('Error loading saved data:', e);
+        }
+    }
+}
+
+// Dark mode functionality
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    // Update theme toggle icon
+    const themeIcon = themeToggle.querySelector('.theme-icon');
+    themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+}
+
+function initializeTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    
+    const themeIcon = themeToggle.querySelector('.theme-icon');
+    themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 }
 
 function generateCoverLetter() {
@@ -236,9 +444,13 @@ function resetForm() {
     if (confirm('Are you sure you want to reset the form? This will clear all your information.')) {
         form.reset();
         templateSelect.value = '';
+        templatePreview.style.display = 'none';
         preview.innerHTML = '<p>Select a template and fill in your information to see your cover letter here.</p>';
         copyBtn.disabled = true;
         generateBtn.disabled = true;
+        
+        // Clear local storage
+        localStorage.removeItem('coverLetterData');
         
         // Remove any success messages
         const existingMessage = document.querySelector('.success-message');
@@ -275,11 +487,44 @@ function showSuccessMessage(message) {
     }, 5000);
 }
 
+// FAQ functionality
+function initializeFAQ() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        
+        question.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+            
+            // Close all FAQ items
+            faqItems.forEach(otherItem => {
+                otherItem.classList.remove('active');
+            });
+            
+            // Open clicked item if it wasn't already active
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        });
+    });
+}
+
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize theme
+    initializeTheme();
+    
+    // Load saved form data
+    loadFormData();
+    
+    // Update generate button state
     updateGenerateButton();
     
-    // Add some helpful placeholder text
+    // Initialize FAQ
+    initializeFAQ();
+    
+    // Add some helpful placeholder text (if not already set)
     const placeholders = {
         'full-name': 'John Smith',
         'email': 'john.smith@email.com',
@@ -297,4 +542,22 @@ document.addEventListener('DOMContentLoaded', function() {
             element.placeholder = placeholder;
         }
     }
+    
+    // Add loading indicator for better UX
+    generateBtn.innerHTML = generateBtn.disabled ? 'Select template and fill form' : 'Generate Cover Letter';
+    
+    // Update generate button text based on form state
+    const updateButtonText = () => {
+        if (!templateSelect.value) {
+            generateBtn.innerHTML = 'Select a template first';
+        } else if (generateBtn.disabled) {
+            generateBtn.innerHTML = 'Fill in all required fields';
+        } else {
+            generateBtn.innerHTML = 'Generate Cover Letter';
+        }
+    };
+    
+    templateSelect.addEventListener('change', updateButtonText);
+    form.addEventListener('input', updateButtonText);
+    updateButtonText();
 });
