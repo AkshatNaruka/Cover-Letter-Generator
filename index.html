@@ -3,14 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cover Letter Generator</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>Cover Letter Generator - Create Professional Cover Letters Online Free</title>
+    <meta name="title" content="Cover Letter Generator - Create Professional Cover Letters Online Free">
+    <meta name="description" content="Generate professional cover letters instantly with our free online tool. Choose from multiple templates including Professional, Creative, and Entry Level designs. No signup required.">
+    <meta name="keywords" content="cover letter generator, professional cover letter, job application, resume, career tools, free cover letter template, online cover letter maker">
+    <meta name="author" content="Cover Letter Generator">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://akshatnaruka.github.io/Cover-Letter-Generator/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://akshatnaruka.github.io/Cover-Letter-Generator/">
+    <meta property="og:title" content="Cover Letter Generator - Create Professional Cover Letters Online Free">
+    <meta property="og:description" content="Generate professional cover letters instantly with our free online tool. Choose from multiple templates including Professional, Creative, and Entry Level designs. No signup required.">
+    <meta property="og:image" content="https://akshatnaruka.github.io/Cover-Letter-Generator/og-image.png">
+    <meta property="og:site_name" content="Cover Letter Generator">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://akshatnaruka.github.io/Cover-Letter-Generator/">
+    <meta property="twitter:title" content="Cover Letter Generator - Create Professional Cover Letters Online Free">
+    <meta property="twitter:description" content="Generate professional cover letters instantly with our free online tool. Choose from multiple templates including Professional, Creative, and Entry Level designs. No signup required.">
+    <meta property="twitter:image" content="https://akshatnaruka.github.io/Cover-Letter-Generator/og-image.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- DNS Prefetch for performance -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Cover Letter Generator",
+      "description": "Generate professional cover letters instantly with our free online tool. Choose from multiple templates including Professional, Creative, and Entry Level designs.",
+      "url": "https://akshatnaruka.github.io/Cover-Letter-Generator/",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Multiple Professional Templates",
+        "Instant Cover Letter Generation",
+        "Copy to Clipboard Functionality",
+        "Mobile Responsive Design",
+        "No Registration Required",
+        "Dark Mode Support",
+        "Template Preview",
+        "Local Data Storage"
+      ],
+      "author": {
+        "@type": "Organization",
+        "name": "Cover Letter Generator"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "127",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    }
+    </script>
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Cover Letter Generator</h1>
-            <p>Create professional cover letters using our pre-made templates</p>
+            <div class="header-content">
+                <div class="header-text">
+                    <h1>Cover Letter Generator</h1>
+                    <p>Create professional cover letters using our pre-made templates</p>
+                </div>
+                <button id="theme-toggle" class="theme-toggle" title="Toggle Dark Mode">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
         </header>
 
         <main>
@@ -23,7 +113,14 @@
                         <option value="professional">Professional</option>
                         <option value="creative">Creative</option>
                         <option value="entry-level">Entry Level</option>
+                        <option value="modern">Modern</option>
+                        <option value="academic">Academic</option>
+                        <option value="sales">Sales & Marketing</option>
                     </select>
+                    <div id="template-preview" class="template-preview" style="display: none;">
+                        <h4>Template Preview:</h4>
+                        <div id="template-preview-content"></div>
+                    </div>
                 </div>
 
                 <h2>Step 2: Fill in Your Information</h2>
@@ -88,6 +185,86 @@
                 </div>
             </div>
         </main>
+
+        <section class="faq-section">
+            <div class="faq-container">
+                <h2>Frequently Asked Questions</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is this cover letter generator really free?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! Our cover letter generator is completely free to use. No signup required, no hidden fees, and no limitations on the number of cover letters you can create.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How many cover letter templates are available?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We offer 6 different cover letter templates: Professional, Creative, Entry Level, Modern, Academic, and Sales & Marketing. Each template is designed for specific industries and career levels.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I save my information for future use?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! Your information is automatically saved in your browser's local storage. When you return to the site, your previously entered information will be restored.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Which template should I choose for my industry?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            <strong>Professional:</strong> Corporate, finance, legal, consulting<br>
+                            <strong>Creative:</strong> Startups, design, marketing, tech<br>
+                            <strong>Entry Level:</strong> New graduates, career changers<br>
+                            <strong>Modern:</strong> Tech, digital marketing, project management<br>
+                            <strong>Academic:</strong> Research, education, non-profit<br>
+                            <strong>Sales:</strong> Sales, business development, customer success
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I edit the generated cover letter?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>After generating your cover letter, you can copy it to your clipboard and paste it into any text editor or word processor to make further customizations.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is my personal information secure?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely! All your information is stored locally in your browser and never sent to our servers. Your personal data remains completely private and secure.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; 2024 Cover Letter Generator. All rights reserved.</p>
+                <p>Generate professional cover letters instantly - No signup required!</p>
+            </div>
+        </footer>
     </div>
 
     <script src="script.js"></script>

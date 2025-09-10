@@ -4,11 +4,39 @@
     box-sizing: border-box;
 }
 
+/* CSS Variables for theming */
+:root {
+    --primary-color: #667eea;
+    --primary-dark: #764ba2;
+    --bg-color: #f8fafc;
+    --text-color: #333;
+    --card-bg: #ffffff;
+    --border-color: #eee;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --success-bg: #d4edda;
+    --success-color: #155724;
+    --success-border: #c3e6cb;
+}
+
+/* Dark mode variables */
+[data-theme="dark"] {
+    --bg-color: #1a202c;
+    --text-color: #e2e8f0;
+    --card-bg: #2d3748;
+    --border-color: #4a5568;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    --success-bg: #2d5a3d;
+    --success-color: #68d391;
+    --success-border: #38a169;
+}
+
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #f4f4f4;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -21,15 +49,49 @@ header {
     text-align: center;
     margin-bottom: 40px;
     padding: 30px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     color: white;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
+    position: relative;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+}
+
+.header-text {
+    flex: 1;
+}
+
+.theme-toggle {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 20px;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
 }
 
 header h1 {
+    font-family: 'Poppins', sans-serif;
     font-size: 2.5em;
+    font-weight: 700;
     margin-bottom: 10px;
+    letter-spacing: -0.02em;
 }
 
 header p {
@@ -45,17 +107,21 @@ main {
 }
 
 .form-section, .preview-section {
-    background: white;
+    background: var(--card-bg);
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
+    transition: background-color 0.3s ease;
 }
 
 .form-section h2, .preview-section h2 {
-    color: #667eea;
+    font-family: 'Poppins', sans-serif;
+    color: var(--primary-color);
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 2px solid #eee;
+    border-bottom: 2px solid var(--border-color);
+    font-weight: 600;
+    font-size: 1.5em;
 }
 
 .template-selection {
@@ -65,23 +131,25 @@ main {
 .template-selection label {
     display: block;
     margin-bottom: 8px;
-    font-weight: bold;
-    color: #555;
+    font-weight: 500;
+    color: var(--text-color);
 }
 
 .template-selection select {
     width: 100%;
     padding: 12px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
     font-size: 16px;
-    background-color: white;
-    transition: border-color 0.3s;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .template-selection select:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .form-group {
@@ -91,22 +159,25 @@ main {
 .form-group label {
     display: block;
     margin-bottom: 8px;
-    font-weight: bold;
-    color: #555;
+    font-weight: 500;
+    color: var(--text-color);
 }
 
 .form-group input {
     width: 100%;
     padding: 12px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
     font-size: 16px;
-    transition: border-color 0.3s;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .form-group input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 #generate-btn, #copy-btn, #reset-btn {
@@ -157,15 +228,165 @@ main {
 
 /* Success message styling */
 .success-message {
-    background: #d4edda;
-    color: #155724;
-    padding: 10px;
-    border-radius: 5px;
+    background: var(--success-bg);
+    color: var(--success-color);
+    padding: 12px 16px;
+    border-radius: 8px;
     margin-bottom: 20px;
-    border: 1px solid #c3e6cb;
+    border: 1px solid var(--success-border);
+    animation: slideIn 0.3s ease-out;
 }
 
-/* Responsive design */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Template Preview */
+.template-preview {
+    margin-top: 15px;
+    padding: 15px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.template-preview h4 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+#template-preview-content {
+    max-height: 200px;
+    overflow-y: auto;
+    white-space: pre-line;
+    line-height: 1.4;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+/* FAQ Section */
+.faq-section {
+    background: var(--card-bg);
+    padding: 50px 0;
+    margin-top: 50px;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+.faq-section h2 {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 40px;
+    font-size: 2.2em;
+    font-weight: 600;
+}
+
+.faq-item {
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+
+.faq-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    cursor: pointer;
+    background: var(--card-bg);
+    transition: background-color 0.3s ease;
+}
+
+.faq-question:hover {
+    background: var(--bg-color);
+}
+
+.faq-question h3 {
+    font-size: 1.1em;
+    font-weight: 500;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.faq-toggle {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-toggle {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    background: var(--bg-color);
+    padding: 0;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 500px;
+    padding: 0 25px 20px 25px;
+}
+
+.faq-answer p {
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    opacity: 0.9;
+}
+
+.faq-answer strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Footer */
+.site-footer {
+    background: var(--card-bg);
+    padding: 30px 0;
+    margin-top: 50px;
+    border-radius: 10px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-content p {
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-bottom: 5px;
+}
+
+.footer-content p:first-child {
+    font-weight: 500;
+}
+
+/* Responsive design improvements */
 @media (max-width: 768px) {
     main {
         grid-template-columns: 1fr;
@@ -184,6 +405,15 @@ main {
         padding: 20px;
     }
     
+    .header-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .header-text {
+        text-align: center;
+    }
+    
     header h1 {
         font-size: 2em;
     }
@@ -196,5 +426,47 @@ main {
         width: 100%;
         margin-right: 0;
         margin-bottom: 10px;
+    }
+    
+    .faq-container {
+        padding: 0 20px;
+    }
+    
+    .faq-section h2 {
+        font-size: 1.8em;
+    }
+    
+    .faq-question {
+        padding: 15px 20px;
+    }
+    
+    .faq-item.active .faq-answer {
+        padding: 0 20px 15px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 5px;
+    }
+    
+    header {
+        padding: 15px;
+    }
+    
+    header h1 {
+        font-size: 1.8em;
+    }
+    
+    .form-section, .preview-section {
+        padding: 15px;
+    }
+    
+    .faq-section {
+        padding: 30px 0;
+    }
+    
+    .faq-container {
+        padding: 0 15px;
     }
 }
