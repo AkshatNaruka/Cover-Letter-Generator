@@ -1,3 +1,8 @@
+// Configure PDF.js worker
+if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
 // Cover letter templates
 const templates = {
     professional: `[DATE]
@@ -188,7 +193,13 @@ const form = document.getElementById('cover-letter-form');
 const generateBtn = document.getElementById('generate-btn');
 const copyBtn = document.getElementById('copy-btn');
 const resetBtn = document.getElementById('reset-btn');
+const downloadPdfBtn = document.getElementById('download-pdf-btn');
 const preview = document.getElementById('cover-letter-preview');
+
+// Resume upload elements
+const resumeUpload = document.getElementById('resume-upload');
+const fileUploadText = document.getElementById('file-upload-text');
+const uploadStatus = document.getElementById('upload-status');
 
 // Form field elements
 const fullNameInput = document.getElementById('full-name');
@@ -205,8 +216,16 @@ const skillsInput = document.getElementById('skills');
 generateBtn.addEventListener('click', generateCoverLetter);
 copyBtn.addEventListener('click', copyToClipboard);
 resetBtn.addEventListener('click', resetForm);
+downloadPdfBtn.addEventListener('click', downloadPDF);
 templateSelect.addEventListener('change', handleTemplateChange);
 themeToggle.addEventListener('click', toggleTheme);
+resumeUpload.addEventListener('change', handleResumeUpload);
+
+// Add drag and drop functionality
+const fileUploadLabel = document.querySelector('.file-upload-label');
+fileUploadLabel.addEventListener('dragover', handleDragOver);
+fileUploadLabel.addEventListener('dragleave', handleDragLeave);
+fileUploadLabel.addEventListener('drop', handleDrop);
 
 // Form validation
 form.addEventListener('input', handleFormInput);
@@ -389,6 +408,7 @@ function generateCoverLetter() {
     // Display the generated cover letter
     preview.textContent = coverLetter;
     copyBtn.disabled = false;
+    downloadPdfBtn.disabled = false;
 
     // Scroll to preview section
     preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -447,7 +467,13 @@ function resetForm() {
         templatePreview.style.display = 'none';
         preview.innerHTML = '<p>Select a template and fill in your information to see your cover letter here.</p>';
         copyBtn.disabled = true;
+        downloadPdfBtn.disabled = true;
         generateBtn.disabled = true;
+        
+        // Reset resume upload
+        resumeUpload.value = '';
+        fileUploadText.textContent = 'Choose file or drag & drop';
+        uploadStatus.style.display = 'none';
         
         // Clear local storage
         localStorage.removeItem('coverLetterData');
@@ -508,6 +534,296 @@ function initializeFAQ() {
             }
         });
     });
+}
+
+// Resume upload and parsing functionality
+async function handleResumeUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Update UI
+    fileUploadText.textContent = file.name;
+    showUploadStatus('processing', 'Processing resume...');
+
+    try {
+        let text = '';
+        
+        if (file.type === 'application/pdf') {
+            if (typeof pdfjsLib !== 'undefined') {
+                text = await extractTextFromPDF(file);
+            } else {
+                showUploadStatus('error', 'PDF processing library not loaded. Please refresh and try again, or fill the form manually.');
+                return;
+            }
+        } else if (file.type.includes('word') || file.name.endsWith('.doc') || file.name.endsWith('.docx')) {
+            showUploadStatus('error', 'Word documents not yet supported. Please upload a PDF version of your resume.');
+            return;
+        } else {
+            showUploadStatus('error', 'Unsupported file format. Please upload a PDF file.');
+            return;
+        }
+
+        if (text.trim()) {
+            const extractedData = parseResumeText(text);
+            populateFormFromResume(extractedData);
+            showUploadStatus('success', 'Resume processed successfully! Information has been auto-filled.');
+        } else {
+            showUploadStatus('error', 'Could not extract text from resume. Please try again or fill the form manually.');
+        }
+    } catch (error) {
+        console.error('Error processing resume:', error);
+        showUploadStatus('error', 'Error processing resume. Please try again or fill the form manually.');
+    }
+}
+
+async function extractTextFromPDF(file) {
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.onload = async function() {
+            try {
+                const typedarray = new Uint8Array(this.result);
+                const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                let fullText = '';
+
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    fullText += pageText + ' ';
+                }
+
+                resolve(fullText);
+            } catch (error) {
+                reject(error);
+            }
+        };
+        fileReader.onerror = reject;
+        fileReader.readAsArrayBuffer(file);
+    });
+}
+
+function parseResumeText(text) {
+    const extractedData = {
+        name: '',
+        email: '',
+        phone: '',
+        skills: [],
+        experience: 0
+    };
+
+    // Extract email using regex
+    const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
+    const emailMatch = text.match(emailRegex);
+    if (emailMatch) {
+        extractedData.email = emailMatch[0];
+    }
+
+    // Extract phone number using regex
+    const phoneRegex = /(\+?1?[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g;
+    const phoneMatch = text.match(phoneRegex);
+    if (phoneMatch) {
+        extractedData.phone = phoneMatch[0];
+    }
+
+    // Extract name (usually at the beginning, before contact info)
+    const lines = text.split('\n').filter(line => line.trim());
+    for (let i = 0; i < Math.min(5, lines.length); i++) {
+        const line = lines[i].trim();
+        // Look for a line that might be a name (2-4 words, no numbers, not an email)
+        if (line && 
+            !emailRegex.test(line) && 
+            !phoneRegex.test(line) && 
+            !/\d/.test(line) && 
+            line.split(' ').length >= 2 && 
+            line.split(' ').length <= 4 &&
+            line.length < 50) {
+            extractedData.name = line;
+            break;
+        }
+    }
+
+    // Extract skills - look for common skill keywords
+    const skillKeywords = [
+        'JavaScript', 'Python', 'Java', 'React', 'Node.js', 'HTML', 'CSS', 'SQL', 'MongoDB',
+        'AWS', 'Docker', 'Kubernetes', 'Git', 'Angular', 'Vue.js', 'TypeScript', 'C++', 'C#',
+        'PHP', 'Ruby', 'Go', 'Swift', 'Kotlin', 'Flutter', 'React Native', 'Express.js',
+        'Django', 'Flask', 'Spring', 'Laravel', 'WordPress', 'Shopify', 'Salesforce',
+        'Project Management', 'Leadership', 'Communication', 'Problem Solving', 'Team Leadership',
+        'Agile', 'Scrum', 'DevOps', 'CI/CD', 'Testing', 'Debugging', 'Data Analysis',
+        'Machine Learning', 'AI', 'Data Science', 'Analytics', 'Marketing', 'SEO', 'SEM',
+        'Social Media', 'Content Marketing', 'Graphic Design', 'UI/UX', 'Figma', 'Adobe',
+        'Photoshop', 'Illustrator', 'Excel', 'PowerPoint', 'Tableau', 'Power BI'
+    ];
+
+    const textUpper = text.toUpperCase();
+    const foundSkills = skillKeywords.filter(skill => 
+        textUpper.includes(skill.toUpperCase())
+    );
+    extractedData.skills = [...new Set(foundSkills)]; // Remove duplicates
+
+    // Estimate years of experience
+    const experienceRegex = /(\d+)[\s\+]*(?:years?|yrs?)\s*(?:of\s*)?(?:experience|exp)/gi;
+    const experienceMatches = text.match(experienceRegex);
+    if (experienceMatches) {
+        const numbers = experienceMatches.map(match => {
+            const num = match.match(/\d+/);
+            return num ? parseInt(num[0]) : 0;
+        });
+        extractedData.experience = Math.max(...numbers);
+    } else {
+        // Try to estimate based on employment history dates
+        const yearRegex = /20\d{2}/g;
+        const years = text.match(yearRegex);
+        if (years && years.length >= 2) {
+            const sortedYears = years.map(y => parseInt(y)).sort((a, b) => a - b);
+            const experienceYears = sortedYears[sortedYears.length - 1] - sortedYears[0];
+            if (experienceYears > 0 && experienceYears < 50) {
+                extractedData.experience = experienceYears;
+            }
+        }
+    }
+
+    return extractedData;
+}
+
+function populateFormFromResume(data) {
+    if (data.name) {
+        fullNameInput.value = data.name;
+    }
+    if (data.email) {
+        emailInput.value = data.email;
+    }
+    if (data.phone) {
+        phoneInput.value = data.phone;
+    }
+    if (data.skills.length > 0) {
+        skillsInput.value = data.skills.join(', ');
+    }
+    if (data.experience > 0) {
+        experienceInput.value = data.experience;
+    }
+
+    // Trigger form validation update
+    updateGenerateButton();
+    saveFormData();
+}
+
+function showUploadStatus(type, message) {
+    uploadStatus.className = `upload-status ${type}`;
+    uploadStatus.textContent = message;
+}
+
+// Drag and drop handlers
+function handleDragOver(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.currentTarget.classList.add('drag-over');
+}
+
+function handleDragLeave(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.currentTarget.classList.remove('drag-over');
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.currentTarget.classList.remove('drag-over');
+    
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+        resumeUpload.files = files;
+        handleResumeUpload({ target: { files: files } });
+    }
+}
+
+// PDF Download functionality
+function downloadPDF() {
+    const text = preview.textContent;
+    
+    if (!text || text === 'Select a template and fill in your information to see your cover letter here.') {
+        alert('No cover letter to download. Please generate one first.');
+        return;
+    }
+
+    // Check if jsPDF is available
+    if (typeof window.jspdf === 'undefined' || !window.jspdf.jsPDF) {
+        // Fallback: Create a text file download
+        downloadAsTextFile(text);
+        return;
+    }
+
+    try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a4'
+        });
+
+        // Set font
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(11);
+
+        // Page margins
+        const margin = 20;
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const textWidth = pageWidth - (margin * 2);
+        const lineHeight = 6;
+
+        // Split text into lines
+        const lines = doc.splitTextToSize(text, textWidth);
+        let y = margin;
+
+        // Add lines to PDF
+        for (let i = 0; i < lines.length; i++) {
+            if (y + lineHeight > pageHeight - margin) {
+                doc.addPage();
+                y = margin;
+            }
+            doc.text(lines[i], margin, y);
+            y += lineHeight;
+        }
+
+        // Generate filename
+        const companyName = companyNameInput.value || 'Company';
+        const jobTitle = jobTitleInput.value || 'Position';
+        const filename = `Cover_Letter_${companyName}_${jobTitle}.pdf`.replace(/[^a-zA-Z0-9]/g, '_');
+
+        // Download the PDF
+        doc.save(filename);
+        showSuccessMessage('PDF downloaded successfully!');
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+        // Fallback to text file
+        downloadAsTextFile(text);
+    }
+}
+
+// Fallback function to download as text file
+function downloadAsTextFile(text) {
+    try {
+        const companyName = companyNameInput.value || 'Company';
+        const jobTitle = jobTitleInput.value || 'Position';
+        const filename = `Cover_Letter_${companyName}_${jobTitle}.txt`.replace(/[^a-zA-Z0-9]/g, '_');
+        
+        const blob = new Blob([text], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        
+        showSuccessMessage('Cover letter downloaded as text file! (PDF library not available)');
+    } catch (error) {
+        console.error('Error downloading file:', error);
+        alert('Error downloading file. Please copy the text instead.');
+    }
 }
 
 // Performance monitoring
