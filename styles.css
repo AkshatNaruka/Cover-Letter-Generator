@@ -31,12 +31,14 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--bg-color);
     font-size: 16px;
     transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
@@ -128,77 +130,161 @@ main {
     margin-bottom: 30px;
 }
 
-.template-selection label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: var(--text-color);
-}
-
-.template-selection select {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 16px;
-    background-color: var(--card-bg);
-    color: var(--text-color);
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.template-selection select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
 .form-group {
     margin-bottom: 20px;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: var(--text-color);
-}
-
-.form-group input {
+/* Enhanced form styling */
+.form-group input, .template-selection select {
     width: 100%;
-    padding: 12px;
-    border: 2px solid var(--border-color);
+    padding: 14px 16px;
+    border: 1.5px solid var(--border-color);
     border-radius: 8px;
     font-size: 16px;
     background-color: var(--card-bg);
     color: var(--text-color);
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
-.form-group input:focus {
+.form-group input:focus, .template-selection select:focus {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    transform: translateY(-1px);
 }
 
-#generate-btn, #copy-btn, #reset-btn {
+.form-group label, .template-selection label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 15px;
+}
+
+/* Resume Upload Section */
+.resume-upload-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.file-upload-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.file-input {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+}
+
+.file-upload-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 2px dashed var(--primary-color);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--card-bg);
+    min-height: 80px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.file-upload-label:hover {
+    border-color: var(--primary-dark);
+    background: var(--bg-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.file-upload-label.drag-over {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    transform: scale(1.02);
+}
+
+.upload-icon {
+    margin-left: 10px;
+    font-size: 1.5em;
+}
+
+.upload-status {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    display: none;
+}
+
+.upload-status.success {
+    background: var(--success-bg);
+    color: var(--success-color);
+    border: 1px solid var(--success-border);
+    display: block;
+}
+
+.upload-status.error {
+    background: #fee;
+    color: #c53030;
+    border: 1px solid #feb2b2;
+    display: block;
+}
+
+.upload-status.processing {
+    background: #fef5e7;
+    color: #d69e2e;
+    border: 1px solid #f6e05e;
+    display: block;
+}
+
+/* Enhanced button styling */
+#generate-btn, #copy-btn, #reset-btn, #download-pdf-btn {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 12px 24px;
+    padding: 14px 28px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.2s ease;
     margin-right: 10px;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+    font-family: inherit;
 }
 
-#generate-btn:hover, #copy-btn:hover, #reset-btn:hover {
+#generate-btn:hover, #copy-btn:hover, #reset-btn:hover, #download-pdf-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
 }
 
-#generate-btn:disabled, #copy-btn:disabled, #reset-btn:disabled {
-    background: #ccc;
+#generate-btn:active, #copy-btn:active, #reset-btn:active, #download-pdf-btn:active {
+    transform: translateY(0);
+}
+
+#download-pdf-btn {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    box-shadow: 0 2px 8px rgba(72, 187, 120, 0.2);
+}
+
+#download-pdf-btn:hover {
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.3);
+}
+
+#generate-btn:disabled, #copy-btn:disabled, #reset-btn:disabled, #download-pdf-btn:disabled {
+    background: #e2e8f0;
+    color: #a0aec0;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
@@ -210,15 +296,23 @@ main {
 }
 
 #cover-letter-preview {
-    background: #f9f9f9;
-    padding: 30px;
-    border-radius: 5px;
+    background: #fafbfc;
+    padding: 40px;
+    border-radius: 12px;
     margin-bottom: 20px;
     min-height: 400px;
-    font-family: 'Georgia', serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', Georgia, serif;
     line-height: 1.8;
-    border: 1px solid #eee;
+    border: 1px solid var(--border-color);
     white-space: pre-line;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+    color: #1a202c;
+}
+
+[data-theme="dark"] #cover-letter-preview {
+    background: #2d3748;
+    color: #e2e8f0;
+    border-color: #4a5568;
 }
 
 .action-buttons {
@@ -422,7 +516,7 @@ main {
         flex-direction: column;
     }
     
-    #copy-btn, #reset-btn {
+    #copy-btn, #reset-btn, #download-pdf-btn {
         width: 100%;
         margin-right: 0;
         margin-bottom: 10px;
