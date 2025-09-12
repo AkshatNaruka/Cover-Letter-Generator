@@ -123,6 +123,21 @@
                         <option value="academic">Academic</option>
                         <option value="sales">Sales & Marketing</option>
                     </select>
+                    
+                    <!-- Bullet Point Style Selector -->
+                    <div class="bullet-style-selection">
+                        <label for="bullet-style-select">Bullet point style:</label>
+                        <select id="bullet-style-select">
+                            <option value="unicode">• (Unicode bullet)</option>
+                            <option value="dash">- (Dash)</option>
+                            <option value="asterisk">* (Asterisk)</option>
+                            <option value="arrow">→ (Arrow)</option>
+                            <option value="number">1. (Numbered list)</option>
+                            <option value="letter">a) (Lettered list)</option>
+                        </select>
+                        <small class="bullet-style-note">Choose how bullet points appear in your cover letter</small>
+                    </div>
+                    
                     <div id="template-preview" class="template-preview" style="display: none;">
                         <h4>Template Preview:</h4>
                         <div id="template-preview-content"></div>
@@ -197,12 +212,27 @@
 
             <div class="preview-section">
                 <h2>Step 4: Your Generated Cover Letter</h2>
+                <div id="cover-letter-stats" class="cover-letter-stats" style="display: none;">
+                    <div class="stats-item">
+                        <span class="stats-label">Words:</span>
+                        <span id="word-count">0</span>
+                    </div>
+                    <div class="stats-item">
+                        <span class="stats-label">Characters:</span>
+                        <span id="char-count">0</span>
+                    </div>
+                    <div class="stats-item">
+                        <span class="stats-label">Reading time:</span>
+                        <span id="reading-time">0 min</span>
+                    </div>
+                </div>
                 <div id="cover-letter-preview">
                     <p>Select a template and fill in your information to see your cover letter here.</p>
                 </div>
                 <div class="action-buttons">
                     <button id="copy-btn" disabled>Copy to Clipboard</button>
                     <button id="download-pdf-btn" disabled>Download PDF</button>
+                    <button id="download-txt-btn" disabled>Download TXT</button>
                     <button id="reset-btn">Reset Form</button>
                 </div>
             </div>

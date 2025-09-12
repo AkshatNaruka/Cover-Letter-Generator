@@ -3,6 +3,75 @@ if (typeof pdfjsLib !== 'undefined') {
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 }
 
+// Bullet point styles configuration
+const bulletStyles = {
+    'unicode': '•',
+    'dash': '-',
+    'asterisk': '*',
+    'arrow': '→',
+    'number': '1.',
+    'letter': 'a)'
+};
+
+// Current bullet style (can be changed by user)
+let currentBulletStyle = 'unicode';
+
+// Function to replace bullet points with selected style
+function applyBulletStyle(text, style = currentBulletStyle) {
+    const bulletChar = bulletStyles[style] || bulletStyles.unicode;
+    
+    // Replace Unicode bullet points with the selected style
+    if (style === 'number') {
+        let counter = 1;
+        return text.replace(/•/g, () => `${counter++}.`);
+    } else if (style === 'letter') {
+        let counter = 1;
+        return text.replace(/•/g, () => {
+            const letter = String.fromCharCode(96 + counter); // 'a', 'b', 'c', etc.
+            counter++;
+            return `${letter})`;
+        });
+    } else {
+        return text.replace(/•/g, bulletChar);
+    }
+}
+
+// Function to calculate and update cover letter statistics
+function updateCoverLetterStats(text) {
+    if (!text || text === 'Select a template and fill in your information to see your cover letter here.') {
+        statsSection.style.display = 'none';
+        return;
+    }
+    
+    // Calculate word count
+    const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+    const wordCount = words.length;
+    
+    // Calculate character count (excluding spaces)
+    const charCount = text.replace(/\s/g, '').length;
+    
+    // Calculate reading time (average 200 words per minute)
+    const readingTimeMinutes = Math.ceil(wordCount / 200);
+    
+    // Update UI
+    wordCountElement.textContent = wordCount;
+    charCountElement.textContent = charCount;
+    readingTimeElement.textContent = `${readingTimeMinutes} min`;
+    
+    statsSection.style.display = 'flex';
+}
+
+// Enhanced text processing for better encoding
+function sanitizeText(text) {
+    // Ensure proper UTF-8 encoding and handle special characters
+    return text
+        .replace(/[\u2018\u2019]/g, "'") // Replace smart quotes with regular quotes
+        .replace(/[\u201C\u201D]/g, '"') // Replace smart double quotes
+        .replace(/\u2013/g, '-') // Replace en-dash
+        .replace(/\u2014/g, '--') // Replace em-dash
+        .replace(/\u2026/g, '...'); // Replace ellipsis
+}
+
 // Cover letter templates
 const templates = {
     professional: `[DATE]
@@ -186,6 +255,7 @@ P.S. I've already researched your key competitors and have some ideas for captur
 
 // DOM elements
 const templateSelect = document.getElementById('template-select');
+const bulletStyleSelect = document.getElementById('bullet-style-select');
 const templatePreview = document.getElementById('template-preview');
 const templatePreviewContent = document.getElementById('template-preview-content');
 const themeToggle = document.getElementById('theme-toggle');
@@ -194,7 +264,14 @@ const generateBtn = document.getElementById('generate-btn');
 const copyBtn = document.getElementById('copy-btn');
 const resetBtn = document.getElementById('reset-btn');
 const downloadPdfBtn = document.getElementById('download-pdf-btn');
+const downloadTxtBtn = document.getElementById('download-txt-btn');
 const preview = document.getElementById('cover-letter-preview');
+
+// Stats elements
+const statsSection = document.getElementById('cover-letter-stats');
+const wordCountElement = document.getElementById('word-count');
+const charCountElement = document.getElementById('char-count');
+const readingTimeElement = document.getElementById('reading-time');
 
 // Resume upload elements
 const resumeUpload = document.getElementById('resume-upload');
@@ -217,7 +294,9 @@ generateBtn.addEventListener('click', generateCoverLetter);
 copyBtn.addEventListener('click', copyToClipboard);
 resetBtn.addEventListener('click', resetForm);
 downloadPdfBtn.addEventListener('click', downloadPDF);
+downloadTxtBtn.addEventListener('click', () => downloadAsTextFile(preview.textContent));
 templateSelect.addEventListener('change', handleTemplateChange);
+bulletStyleSelect.addEventListener('change', handleBulletStyleChange);
 themeToggle.addEventListener('click', toggleTheme);
 resumeUpload.addEventListener('change', handleResumeUpload);
 
@@ -229,6 +308,25 @@ fileUploadLabel.addEventListener('drop', handleDrop);
 
 // Form validation
 form.addEventListener('input', handleFormInput);
+
+// Bullet style change handler
+function handleBulletStyleChange() {
+    currentBulletStyle = bulletStyleSelect.value;
+    
+    // Update template preview if a template is selected
+    if (templateSelect.value) {
+        handleTemplateChange();
+    }
+    
+    // Regenerate cover letter if it exists
+    const currentPreview = preview.textContent;
+    if (currentPreview && currentPreview !== 'Select a template and fill in your information to see your cover letter here.') {
+        generateCoverLetter();
+    }
+    
+    // Save to local storage
+    localStorage.setItem('bulletStyle', currentBulletStyle);
+}
 
 // Template preview functionality
 function handleTemplateChange() {
@@ -257,6 +355,9 @@ function handleTemplateChange() {
             previewText = previewText.substring(0, 500) + '...';
         }
         
+        // Apply bullet styling to preview
+        previewText = applyBulletStyle(previewText, currentBulletStyle);
+        
         templatePreviewContent.textContent = previewText;
     } else {
         templatePreview.style.display = 'none';
@@ -283,6 +384,7 @@ function updateGenerateButton() {
 function saveFormData() {
     const formData = {
         template: templateSelect.value,
+        bulletStyle: currentBulletStyle,
         fullName: fullNameInput.value,
         email: emailInput.value,
         phone: phoneInput.value,
@@ -304,6 +406,8 @@ function loadFormData() {
             const formData = JSON.parse(savedData);
             
             templateSelect.value = formData.template || '';
+            bulletStyleSelect.value = formData.bulletStyle || 'unicode';
+            currentBulletStyle = formData.bulletStyle || 'unicode';
             fullNameInput.value = formData.fullName || '';
             emailInput.value = formData.email || '';
             phoneInput.value = formData.phone || '';
@@ -318,6 +422,13 @@ function loadFormData() {
         } catch (e) {
             console.log('Error loading saved data:', e);
         }
+    }
+    
+    // Load saved bullet style separately if available
+    const savedBulletStyle = localStorage.getItem('bulletStyle');
+    if (savedBulletStyle && bulletStyles[savedBulletStyle]) {
+        currentBulletStyle = savedBulletStyle;
+        bulletStyleSelect.value = savedBulletStyle;
     }
 }
 
@@ -405,10 +516,18 @@ function generateCoverLetter() {
         coverLetter = coverLetter.replace(new RegExp(placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), replacement);
     }
 
+    // Apply bullet point styling and text sanitization
+    coverLetter = applyBulletStyle(coverLetter, currentBulletStyle);
+    coverLetter = sanitizeText(coverLetter);
+
     // Display the generated cover letter
     preview.textContent = coverLetter;
     copyBtn.disabled = false;
     downloadPdfBtn.disabled = false;
+    downloadTxtBtn.disabled = false;
+    
+    // Update statistics
+    updateCoverLetterStats(coverLetter);
 
     // Scroll to preview section
     preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -425,50 +544,143 @@ function copyToClipboard() {
         return;
     }
 
-    // Create a temporary textarea to copy text
-    const tempTextarea = document.createElement('textarea');
-    tempTextarea.value = text;
-    document.body.appendChild(tempTextarea);
-    tempTextarea.select();
-    tempTextarea.setSelectionRange(0, 99999); // For mobile devices
-
-    try {
-        const successful = document.execCommand('copy');
-        if (successful) {
-            showSuccessMessage('Cover letter copied to clipboard!');
-        } else {
-            // Fallback for modern browsers
-            navigator.clipboard.writeText(text).then(() => {
+    // Enhanced UTF-8 safe copy with better encoding handling
+    const copyText = async (textToCopy) => {
+        // First try the modern clipboard API
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            try {
+                // Ensure proper UTF-8 encoding
+                const encodedText = sanitizeText(textToCopy);
+                await navigator.clipboard.writeText(encodedText);
                 showSuccessMessage('Cover letter copied to clipboard!');
-            }).catch(() => {
-                alert('Failed to copy to clipboard. Please select and copy the text manually.');
-            });
+                return true;
+            } catch (err) {
+                console.log('Clipboard API failed, trying fallback:', err);
+            }
         }
-    } catch (err) {
-        // Additional fallback
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(text).then(() => {
-                showSuccessMessage('Cover letter copied to clipboard!');
-            }).catch(() => {
-                alert('Failed to copy to clipboard. Please select and copy the text manually.');
-            });
-        } else {
-            alert('Copy to clipboard not supported. Please select and copy the text manually.');
-        }
-    }
+        
+        // Fallback method with better encoding support
+        const textArea = document.createElement('textarea');
+        textArea.value = sanitizeText(textToCopy);
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
 
-    document.body.removeChild(tempTextarea);
+        try {
+            const successful = document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            if (successful) {
+                showSuccessMessage('Cover letter copied to clipboard!');
+                return true;
+            } else {
+                throw new Error('execCommand copy failed');
+            }
+        } catch (err) {
+            document.body.removeChild(textArea);
+            console.error('Copy failed:', err);
+            return false;
+        }
+    };
+
+    // Execute copy with fallback handling
+    copyText(text).then((success) => {
+        if (!success) {
+            // Ultimate fallback - show text in a modal for manual copy
+            showTextModal(text);
+        }
+    }).catch(() => {
+        showTextModal(text);
+    });
+}
+
+// Function to show text in a modal for manual copying
+function showTextModal(text) {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    `;
+    
+    const modalContent = document.createElement('div');
+    modalContent.style.cssText = `
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 80%;
+        max-height: 80%;
+        overflow: auto;
+        position: relative;
+    `;
+    
+    const title = document.createElement('h3');
+    title.textContent = 'Copy Text Manually';
+    title.style.marginBottom = '15px';
+    
+    const textarea = document.createElement('textarea');
+    textarea.value = sanitizeText(text);
+    textarea.style.cssText = `
+        width: 100%;
+        height: 300px;
+        padding: 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        font-family: monospace;
+        font-size: 14px;
+        resize: vertical;
+    `;
+    textarea.select();
+    
+    const closeBtn = document.createElement('button');
+    closeBtn.textContent = 'Close';
+    closeBtn.style.cssText = `
+        margin-top: 10px;
+        padding: 8px 16px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    `;
+    closeBtn.onclick = () => document.body.removeChild(modal);
+    
+    modalContent.appendChild(title);
+    modalContent.appendChild(textarea);
+    modalContent.appendChild(closeBtn);
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+    
+    modal.onclick = (e) => {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    };
 }
 
 function resetForm() {
     if (confirm('Are you sure you want to reset the form? This will clear all your information.')) {
         form.reset();
         templateSelect.value = '';
+        bulletStyleSelect.value = 'unicode';
+        currentBulletStyle = 'unicode';
         templatePreview.style.display = 'none';
         preview.innerHTML = '<p>Select a template and fill in your information to see your cover letter here.</p>';
         copyBtn.disabled = true;
         downloadPdfBtn.disabled = true;
+        downloadTxtBtn.disabled = true;
         generateBtn.disabled = true;
+        statsSection.style.display = 'none';
         
         // Reset resume upload
         resumeUpload.value = '';
@@ -477,6 +689,7 @@ function resetForm() {
         
         // Clear local storage
         localStorage.removeItem('coverLetterData');
+        localStorage.removeItem('bulletStyle');
         
         // Remove any success messages
         const existingMessage = document.querySelector('.success-message');
@@ -762,7 +975,7 @@ function downloadPDF() {
             format: 'a4'
         });
 
-        // Set font
+        // Set font for better Unicode support
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(11);
 
@@ -773,8 +986,11 @@ function downloadPDF() {
         const textWidth = pageWidth - (margin * 2);
         const lineHeight = 6;
 
-        // Split text into lines
-        const lines = doc.splitTextToSize(text, textWidth);
+        // Sanitize text for PDF generation
+        const sanitizedText = sanitizeText(text);
+        
+        // Split text into lines with better handling of special characters
+        const lines = doc.splitTextToSize(sanitizedText, textWidth);
         let y = margin;
 
         // Add lines to PDF
@@ -783,7 +999,20 @@ function downloadPDF() {
                 doc.addPage();
                 y = margin;
             }
-            doc.text(lines[i], margin, y);
+            // Ensure text is properly encoded
+            const line = lines[i].replace(/[^\x00-\x7F]/g, function(char) {
+                // Replace any remaining problematic characters with safe alternatives
+                switch(char) {
+                    case '•': return '* ';
+                    case '→': return '-> ';
+                    case '\u201C': return '"';  // Left double quotation mark
+                    case '\u201D': return '"';  // Right double quotation mark
+                    case '\u2018': return "'";  // Left single quotation mark
+                    case '\u2019': return "'";  // Right single quotation mark
+                    default: return char;
+                }
+            });
+            doc.text(line, margin, y);
             y += lineHeight;
         }
 
@@ -809,7 +1038,12 @@ function downloadAsTextFile(text) {
         const jobTitle = jobTitleInput.value || 'Position';
         const filename = `Cover_Letter_${companyName}_${jobTitle}.txt`.replace(/[^a-zA-Z0-9]/g, '_');
         
-        const blob = new Blob([text], { type: 'text/plain' });
+        // Ensure proper UTF-8 encoding with BOM for better compatibility
+        const sanitizedText = sanitizeText(text);
+        const utf8BOM = '\uFEFF';
+        const textWithBOM = utf8BOM + sanitizedText;
+        
+        const blob = new Blob([textWithBOM], { type: 'text/plain;charset=utf-8' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
