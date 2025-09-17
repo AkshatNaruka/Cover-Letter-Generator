@@ -3,6 +3,36 @@ if (typeof pdfjsLib !== 'undefined') {
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 }
 
+// Tab functionality
+function initializeTabs() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetTab = button.getAttribute('data-tab');
+            
+            // Remove active class from all buttons and contents
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding content
+            button.classList.add('active');
+            document.getElementById(`${targetTab}-tab`).classList.add('active');
+            
+            // Track tab usage for analytics (optional)
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'tab_switch', {
+                    'tab_name': targetTab
+                });
+            }
+        });
+    });
+}
+
+// Initialize tabs when DOM is loaded
+document.addEventListener('DOMContentLoaded', initializeTabs);
+
 // Bullet point styles configuration
 const bulletStyles = {
     'unicode': '•',
