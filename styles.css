@@ -4,41 +4,42 @@
     box-sizing: border-box;
 }
 
-/* CSS Variables for theming */
+/* CSS Variables for theming - Clean Minimal Theme */
 :root {
-    --primary-color: #667eea;
-    --primary-dark: #764ba2;
-    --bg-color: #f8fafc;
-    --text-color: #333;
+    --primary-color: #1a1a1a;
+    --primary-dark: #000000;
+    --bg-color: #ffffff;
+    --text-color: #1a1a1a;
     --card-bg: #ffffff;
-    --border-color: #eee;
-    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    --success-bg: #d4edda;
-    --success-color: #155724;
-    --success-border: #c3e6cb;
+    --border-color: #e5e5e5;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --success-bg: #f0f9f0;
+    --success-color: #2d7d32;
+    --success-border: #81c784;
 }
 
-/* Dark mode variables */
+/* Dark mode variables - Keep minimal approach */
 [data-theme="dark"] {
-    --bg-color: #1a202c;
-    --text-color: #e2e8f0;
-    --card-bg: #2d3748;
-    --border-color: #4a5568;
-    --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    --success-bg: #2d5a3d;
-    --success-color: #68d391;
-    --success-border: #38a169;
+    --bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --card-bg: #2a2a2a;
+    --border-color: #404040;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --success-bg: #2d4a2d;
+    --success-color: #81c784;
+    --success-border: #4caf50;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
-    line-height: 1.6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', system-ui, sans-serif;
+    line-height: 1.7;
     color: var(--text-color);
     background-color: var(--bg-color);
     font-size: 16px;
     transition: background-color 0.3s ease, color 0.3s ease;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.01em;
 }
 
 .container {
@@ -49,13 +50,14 @@ body {
 
 header {
     text-align: center;
-    margin-bottom: 40px;
-    padding: 30px;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    color: white;
-    border-radius: 10px;
-    box-shadow: var(--shadow);
+    margin-bottom: 60px;
+    padding: 60px 30px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    border-radius: 0;
+    box-shadow: none;
     position: relative;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .header-content {
@@ -70,65 +72,81 @@ header {
 }
 
 .theme-toggle {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
+    background: var(--bg-color);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
     width: 48px;
     height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     font-size: 20px;
+    color: var(--text-color);
 }
 
 .theme-toggle:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
+    border-color: var(--primary-color);
+    background: #f8f9fa;
+    transform: translateY(-1px);
 }
 
 header h1 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 2.5em;
-    font-weight: 700;
-    margin-bottom: 10px;
-    letter-spacing: -0.02em;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 3.5em;
+    font-weight: 800;
+    margin-bottom: 16px;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    color: var(--text-color);
 }
 
 header p {
-    font-size: 1.1em;
-    opacity: 0.9;
+    font-size: 1.3em;
+    opacity: 0.7;
+    font-weight: 400;
+    color: var(--text-color);
 }
 
 .hero-subtitle {
-    font-size: 1.2em !important;
-    font-weight: 500;
-    margin-bottom: 20px !important;
-    opacity: 1 !important;
+    font-size: 1.4em !important;
+    font-weight: 400;
+    margin-bottom: 32px !important;
+    opacity: 0.8 !important;
+    color: var(--text-color);
 }
 
 .hero-features {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 25px;
+    gap: 12px;
+    margin-bottom: 40px;
+    justify-content: center;
 }
 
 .feature-badge {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 6px 12px;
-    border-radius: 20px;
+    background: var(--bg-color);
+    padding: 8px 16px;
+    border-radius: 6px;
     font-size: 0.9em;
     font-weight: 500;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    transition: all 0.2s ease;
+}
+
+.feature-badge:hover {
+    border-color: var(--primary-color);
+    background: #f8f9fa;
+    transform: translateY(-1px);
 }
 
 .hero-stats {
     display: flex;
-    gap: 30px;
-    margin-top: 20px;
+    gap: 40px;
+    margin-top: 32px;
+    justify-content: center;
 }
 
 .stat-item {
@@ -137,16 +155,17 @@ header p {
 
 .stat-item strong {
     display: block;
-    font-size: 1.5em;
+    font-size: 1.8em;
     font-weight: 700;
-    color: white;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    color: var(--text-color);
+    margin-bottom: 4px;
 }
 
 .stat-item span {
-    font-size: 0.8em;
-    opacity: 0.9;
+    font-size: 0.85em;
+    opacity: 0.6;
     font-weight: 400;
+    color: var(--text-color);
 }
 
 /* Benefits Section */
@@ -200,8 +219,8 @@ header p {
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary-color), #764ba2);
+    height: 2px;
+    background: var(--text-color);
     transform: scaleX(0);
     transition: transform 0.3s ease;
 }
@@ -216,11 +235,12 @@ header p {
 }
 
 .benefit-card h3 {
-    color: var(--primary-color);
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.4em;
+    color: var(--text-color);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 1.5em;
     margin-bottom: 15px;
     font-weight: 600;
+    letter-spacing: -0.01em;
 }
 
 .benefit-card p {
@@ -231,11 +251,12 @@ header p {
 
 /* Process Section */
 .process-section {
-    background: linear-gradient(135deg, var(--primary-color), #764ba2);
+    background: var(--bg-color);
     padding: 60px 0;
     margin: 40px 0;
-    border-radius: 15px;
-    color: white;
+    border-radius: 8px;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
 }
 
 .process-container {
@@ -246,10 +267,12 @@ header p {
 
 .process-section h2 {
     text-align: center;
-    font-family: 'Poppins', sans-serif;
-    font-size: 2.2em;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 2.4em;
     margin-bottom: 50px;
-    font-weight: 600;
+    font-weight: 700;
+    color: var(--text-color);
+    letter-spacing: -0.03em;
 }
 
 .process-steps {
@@ -307,20 +330,26 @@ main {
 
 .form-section, .preview-section {
     background: var(--card-bg);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: var(--shadow);
-    transition: background-color 0.3s ease;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: none;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.form-section:hover, .preview-section:hover {
+    border-color: #d0d0d0;
 }
 
 .form-section h2, .preview-section h2 {
-    font-family: 'Poppins', sans-serif;
-    color: var(--primary-color);
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--border-color);
-    font-weight: 600;
-    font-size: 1.5em;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-color);
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 700;
+    font-size: 1.8em;
+    letter-spacing: -0.02em;
 }
 
 .template-selection {
@@ -356,15 +385,15 @@ main {
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
-/* Enhanced form styling */
+/* Enhanced form styling - Minimal Design */
 .form-group input, .template-selection select, #bullet-style-select {
     width: 100%;
-    padding: 14px 16px;
-    border: 1.5px solid var(--border-color);
-    border-radius: 8px;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
     font-size: 16px;
     background-color: var(--card-bg);
     color: var(--text-color);
@@ -377,9 +406,9 @@ main {
 
 .form-group input:focus, .template-selection select:focus, #bullet-style-select:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    transform: translateY(-1px);
+    border-color: var(--text-color);
+    box-shadow: none;
+    transform: none;
 }
 
 .form-group label, .template-selection label {
@@ -393,9 +422,9 @@ main {
 /* Resume Upload Section */
 .resume-upload-section {
     margin-bottom: 30px;
-    padding: 20px;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    border-radius: 12px;
+    padding: 24px;
+    background: var(--bg-color);
+    border-radius: 8px;
     border: 1px solid var(--border-color);
 }
 
@@ -473,25 +502,26 @@ main {
     display: block;
 }
 
-/* Enhanced button styling */
+/* Enhanced button styling - Minimal Design */
 #generate-btn, #copy-btn, #reset-btn, #download-pdf-btn, #download-txt-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 14px 28px;
+    background: var(--text-color);
+    color: var(--bg-color);
+    padding: 12px 24px;
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: 6px;
+    font-size: 15px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
     margin-right: 10px;
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+    box-shadow: none;
     font-family: inherit;
+    letter-spacing: -0.01em;
 }
 
 #generate-btn:hover, #copy-btn:hover, #reset-btn:hover, #download-pdf-btn:hover, #download-txt-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+    transform: translateY(-1px);
+    background: #333333;
 }
 
 #generate-btn:active, #copy-btn:active, #reset-btn:active, #download-pdf-btn:active, #download-txt-btn:active {
@@ -499,17 +529,17 @@ main {
 }
 
 #download-pdf-btn {
-    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-    box-shadow: 0 2px 8px rgba(72, 187, 120, 0.2);
+    background: var(--text-color);
+    color: var(--bg-color);
 }
 
 #download-pdf-btn:hover {
-    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.3);
+    background: #333333;
 }
 
 #generate-btn:disabled, #copy-btn:disabled, #reset-btn:disabled, #download-pdf-btn:disabled {
-    background: #e2e8f0;
-    color: #a0aec0;
+    background: #e0e0e0;
+    color: #a0a0a0;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
@@ -818,27 +848,29 @@ main {
 }
 
 .resource-links a:hover {
-    background: var(--primary-color);
-    color: white;
-    border-left-color: rgba(255, 255, 255, 0.5);
+    background: var(--text-color);
+    color: var(--bg-color);
+    border-left-color: var(--text-color);
     transform: translateX(5px);
 }
 
 /* Pro Tips Section */
 .pro-tips {
-    background: linear-gradient(135deg, var(--primary-color), #764ba2);
+    background: var(--bg-color);
     padding: 40px;
-    border-radius: 15px;
-    color: white;
+    border-radius: 8px;
+    color: var(--text-color);
     margin-top: 30px;
+    border: 1px solid var(--border-color);
 }
 
 .pro-tips h3 {
     text-align: center;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.8em;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 2em;
     margin-bottom: 30px;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: -0.02em;
 }
 
 .tips-grid {
@@ -848,16 +880,17 @@ main {
 }
 
 .tip-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-color);
     padding: 25px;
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: transform 0.3s ease;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
 }
 
 .tip-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-1px);
+    border-color: var(--text-color);
+}
     background: rgba(255, 255, 255, 0.15);
 }
 
@@ -1029,7 +1062,7 @@ main {
 
 /* Tab Navigation Styles */
 .tab-navigation {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    background: var(--bg-color);
     border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
@@ -1053,42 +1086,37 @@ main {
     padding: 16px 24px;
     background: transparent;
     border: none;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-color);
     cursor: pointer;
-    transition: all 0.3s ease;
-    border-bottom: 3px solid transparent;
-    font-family: 'Poppins', sans-serif;
+    transition: all 0.2s ease;
+    border-bottom: 2px solid transparent;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 500;
     font-size: 16px;
     position: relative;
-    overflow: hidden;
+    opacity: 0.7;
 }
 
 .tab-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.5s;
+    display: none;
 }
 
 .tab-button:hover::before {
-    left: 100%;
+    display: none;
 }
 
 .tab-button:hover {
-    color: white;
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
+    color: var(--text-color);
+    opacity: 1;
+    background: transparent;
+    transform: none;
 }
 
 .tab-button.active {
-    color: white;
-    border-bottom-color: #ffd700;
-    background: rgba(255, 255, 255, 0.15);
+    color: var(--text-color);
+    border-bottom-color: var(--primary-color);
+    background: transparent;
+    opacity: 1;
 }
 
 .tab-icon {
