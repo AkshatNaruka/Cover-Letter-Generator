@@ -129,7 +129,35 @@
             </div>
         </header>
 
-        <main>
+        <!-- Tab Navigation -->
+        <nav class="tab-navigation">
+            <div class="container">
+                <div class="tab-buttons">
+                    <button class="tab-button active" data-tab="generator">
+                        <span class="tab-icon">🎯</span>
+                        <span class="tab-text">Generator</span>
+                    </button>
+                    <button class="tab-button" data-tab="features">
+                        <span class="tab-icon">🚀</span>
+                        <span class="tab-text">Features</span>
+                    </button>
+                    <button class="tab-button" data-tab="faq">
+                        <span class="tab-icon">❓</span>
+                        <span class="tab-text">FAQ</span>
+                    </button>
+                    <button class="tab-button" data-tab="resources">
+                        <span class="tab-icon">🎓</span>
+                        <span class="tab-text">Resources</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Tab Content Container -->
+        <div class="tab-content-container">
+            <!-- Generator Tab -->
+            <div id="generator-tab" class="tab-content active">
+                <main>
             <div class="form-section">
                 <h2>Step 1: Select a Template</h2>
                 <div class="template-selection">
@@ -257,12 +285,15 @@
                 </div>
             </div>
         </main>
+            </div>
 
-        <!-- Benefits Section -->
-        <section class="benefits-section">
-            <div class="benefits-container">
-                <h2>🚀 Why Choose Our Cover Letter Generator?</h2>
-                <div class="benefits-grid">
+            <!-- Features Tab -->
+            <div id="features-tab" class="tab-content">
+                <!-- Benefits Section -->
+                <section class="benefits-section">
+                    <div class="benefits-container">
+                        <h2>🚀 Why Choose Our Cover Letter Generator?</h2>
+                        <div class="benefits-grid">
                     <div class="benefit-card">
                         <div class="benefit-icon">⚡</div>
                         <h3>Lightning Fast</h3>
@@ -293,15 +324,15 @@
                         <h3>Multiple Formats</h3>
                         <p>Download your cover letter as PDF, copy to clipboard, or export as text file - whatever works for your workflow.</p>
                     </div>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Process Section -->
-        <section class="process-section">
-            <div class="process-container">
-                <h2>📋 How It Works</h2>
-                <div class="process-steps">
+            <!-- Process Section -->
+            <section class="process-section">
+                <div class="process-container">
+                    <h2>📋 How It Works</h2>
+                    <div class="process-steps">
                     <div class="step">
                         <div class="step-number">1</div>
                         <div class="step-content">
@@ -325,13 +356,16 @@
                             <p>Click generate and get your personalized cover letter instantly. Copy, download, or print - it's ready to use!</p>
                         </div>
                     </div>
+                    </div>
                 </div>
+            </section>
             </div>
-        </section>
 
-        <section class="faq-section">
-            <div class="faq-container">
-                <h2>Frequently Asked Questions</h2>
+            <!-- FAQ Tab -->
+            <div id="faq-tab" class="tab-content">
+                <section class="faq-section">
+                    <div class="faq-container">
+                        <h2>Frequently Asked Questions</h2>
                 
                 <div class="faq-item">
                     <div class="faq-question">
@@ -419,13 +453,17 @@
                         <p>Absolutely! All your information is stored locally in your browser and never sent to our servers. Your personal data remains completely private and secure.</p>
                     </div>
                 </div>
+                    </div>
+                </div>
+            </section>
             </div>
-        </section>
 
-        <!-- Student Resources Section -->
-        <section class="resources-section">
-            <div class="resources-container">
-                <h2>🎓 Student Career Resources</h2>
+            <!-- Resources Tab -->
+            <div id="resources-tab" class="tab-content">
+                <!-- Student Resources Section -->
+                <section class="resources-section">
+                    <div class="resources-container">
+                        <h2>🎓 Student Career Resources</h2>
                 <p class="resources-intro">Boost your job search success with these carefully curated resources designed specifically for students and new graduates.</p>
                 
                 <div class="resources-grid">
@@ -515,8 +553,11 @@
                         </div>
                     </div>
                 </div>
+                    </div>
+                </div>
+            </section>
             </div>
-        </section>
+        </div>
 
         <footer class="site-footer">
             <div class="footer-content">
