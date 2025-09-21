@@ -142,6 +142,12 @@ header p {
     transform: translateY(-1px);
 }
 
+/* Dark mode hover fix for feature badges */
+[data-theme="dark"] .feature-badge:hover {
+    background: #000000;
+    color: #ffffff;
+}
+
 .hero-stats {
     display: flex;
     gap: 40px;
