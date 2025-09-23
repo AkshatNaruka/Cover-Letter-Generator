@@ -1,8 +1,8 @@
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://akshatnaruka.github.io/Cover-Letter-Generator/sitemap.xml
+# Sitemap - will work with any domain
+Sitemap: /sitemap.xml
 
 # Block access to sensitive files
 Disallow: /.git/

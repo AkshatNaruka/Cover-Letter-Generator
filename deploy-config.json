@@ -1,0 +1,67 @@
+{
+  "deployment": {
+    "github-pages": {
+      "description": "Deploy to GitHub Pages with custom domain",
+      "steps": [
+        "1. Add your custom domain to the CNAME file",
+        "2. Configure DNS settings with your domain provider",
+        "3. Enable GitHub Pages in repository settings",
+        "4. Set custom domain in GitHub Pages settings"
+      ],
+      "dns_settings": {
+        "type": "CNAME",
+        "name": "@",
+        "value": "username.github.io"
+      }
+    },
+    "netlify": {
+      "description": "Deploy to Netlify",
+      "build_command": "# No build needed - static site",
+      "publish_directory": "./",
+      "steps": [
+        "1. Connect your GitHub repository to Netlify",
+        "2. Set build settings (no build command needed)",
+        "3. Configure custom domain in Netlify dashboard",
+        "4. Update DNS settings with your domain provider"
+      ]
+    },
+    "vercel": {
+      "description": "Deploy to Vercel",
+      "build_command": "# No build needed - static site",
+      "output_directory": "./",
+      "steps": [
+        "1. Import project from GitHub to Vercel",
+        "2. No build configuration needed for static site",
+        "3. Add custom domain in Vercel dashboard",
+        "4. Configure DNS settings"
+      ]
+    },
+    "custom_server": {
+      "description": "Deploy to your own server",
+      "requirements": [
+        "Web server (Apache, Nginx, etc.)",
+        "Domain pointing to your server",
+        "SSL certificate (recommended)"
+      ],
+      "steps": [
+        "1. Copy all files to your web server directory",
+        "2. Configure web server to serve static files",
+        "3. Set up SSL certificate",
+        "4. Update DNS settings"
+      ]
+    }
+  },
+  "domain_configuration": {
+    "files_to_update": [
+      "CNAME (for GitHub Pages)",
+      "sitemap.xml (run generate-sitemap.js)",
+      "HTML meta tags (automatically handled)"
+    ],
+    "seo_considerations": [
+      "301 redirects from old URLs",
+      "Update social media links",
+      "Notify search engines of domain change",
+      "Update any external references"
+    ]
+  }
+}
