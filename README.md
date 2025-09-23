@@ -6,6 +6,18 @@
 
 🌐 **Live Demo:** [https://akshatnaruka.github.io/Cover-Letter-Generator/](https://akshatnaruka.github.io/Cover-Letter-Generator/)
 
+## 🚀 Ready for Scale & Custom Domains
+
+This project is **production-ready** and designed for easy deployment on custom domains:
+
+- **🌍 Domain Agnostic**: Automatically adapts to any domain without code changes
+- **⚡ Multiple Hosting Options**: GitHub Pages, Netlify, Vercel, or traditional hosting
+- **🔧 Zero Configuration**: Dynamic URL detection and SEO optimization
+- **📈 SEO Optimized**: Proper meta tags, sitemaps, and structured data for any domain
+- **🛡️ Enterprise Ready**: Clean codebase, performance optimized, mobile responsive
+
+**Perfect for**: Personal portfolios, business websites, career services, educational institutions, or SaaS integration.
+
 ## 🚀 Why Students Love Our Generator
 
 ✅ **6 Professional Templates** - Industry-specific designs  
@@ -89,6 +101,8 @@ This application is fully optimized for search engines with:
 
 ## Deployment
 
+### Current GitHub Pages Deployment
+
 This site is automatically deployed to GitHub Pages using GitHub Actions. The deployment workflow:
 
 - **Triggers**: Runs on pushes to `main` branch, pull requests to `main`, and manual dispatch
@@ -96,11 +110,69 @@ This site is automatically deployed to GitHub Pages using GitHub Actions. The de
 - **Deployment**: Automatically deploys to GitHub Pages when changes are pushed to the main branch
 - **PR Previews**: Builds and validates changes in pull requests without deploying
 
-The site is available at: `https://akshatnaruka.github.io/Cover-Letter-Generator/`
+The site is currently available at: `https://akshatnaruka.github.io/Cover-Letter-Generator/`
+
+### 🌐 Custom Domain Deployment
+
+This website is fully prepared for deployment on custom domains. Choose from multiple hosting options:
+
+#### Option 1: GitHub Pages with Custom Domain
+
+1. **Add your domain to CNAME file**:
+   ```bash
+   echo "yourdomain.com" > CNAME
+   ```
+
+2. **Configure DNS with your domain provider**:
+   - Add CNAME record: `@` → `username.github.io`
+   - Or for subdomains: `www` → `username.github.io`
+
+3. **Enable custom domain in GitHub Pages**:
+   - Go to repository Settings → Pages
+   - Enter your custom domain
+   - Enable "Enforce HTTPS"
+
+4. **Update sitemap for SEO**:
+   ```bash
+   node generate-sitemap.js https://yourdomain.com
+   ```
+
+#### Option 2: Netlify Deployment
+
+1. **Connect repository to Netlify**
+2. **Build settings**:
+   - Build command: `(leave empty - static site)`
+   - Publish directory: `./`
+3. **Add custom domain in Netlify dashboard**
+4. **Update DNS**: Point your domain to Netlify
+
+#### Option 3: Vercel Deployment
+
+1. **Import GitHub repository to Vercel**
+2. **No build configuration needed**
+3. **Add custom domain in Vercel dashboard**
+4. **Configure DNS settings**
+
+#### Option 4: Traditional Web Hosting
+
+1. **Upload all files to your web server**
+2. **Configure web server (Apache/Nginx)**
+3. **Set up SSL certificate**
+4. **Update sitemap**:
+   ```bash
+   node generate-sitemap.js https://yourdomain.com
+   ```
+
+### 🔧 Domain Configuration Features
+
+- **Dynamic URL Detection**: Meta tags automatically update based on current domain
+- **SEO Optimized**: Canonical URLs, Open Graph, and Twitter Cards work with any domain  
+- **Sitemap Generator**: Use `generate-sitemap.js` to create domain-specific sitemaps
+- **Multiple Format Support**: Works with or without www, subdomains, and custom paths
 
 ### Manual Deployment
 
-You can manually trigger a deployment from the GitHub Actions tab in the repository.
+You can manually trigger a GitHub Pages deployment from the Actions tab in the repository.
 
 ## Getting Started
 
